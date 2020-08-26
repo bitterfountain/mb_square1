@@ -353,7 +353,7 @@
                         <p>Your registration in our blog has been susccessful, here your credentials:</p>
                         <br/>
                         <p>username:<br/>{{$data->email}}</p>
-                        <p>password:<br/>{{$data->password}}</p>
+                        <p>password:<br/>{{$data->clave}}</p>
                         <br/>
                         <br/>
                         <a href="{{$data->link}}" target="_blank">Go to blog</a> 

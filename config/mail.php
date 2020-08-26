@@ -34,6 +34,10 @@ return [
     */
 
     'mailers' => [
+        'sendgrid' => [
+            'transport' => 'sendgrid',
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
@@ -88,6 +92,7 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
@@ -108,3 +113,28 @@ return [
     ],
 
 ];
+
+
+/*
+
+
+MAIL_MAILER=sendgrid
+MAIL_HOST=smtp.sendgrid.net
+MAIL_PORT=587
+MAIL_USERNAME='wTgziEfZQQ6UaNdzdlSoaQ'
+MAIL_PASSWORD='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'
+MAIL_ENCRYPTION=tls
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_FROM_ADDRESS=fuenteamarga@gmail.com
+
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME='sendemailfromblog@gmail.com'
+MAIL_PASSWORD='L@r@vel2020'
+MAIL_ENCRYPTION=tls
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_FROM_ADDRESS=sendemailfromblog@gmail.com
+
+*/

@@ -1,44 +1,62 @@
-<!doctype html>
-
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Ejercicio Square1">
-    <meta name="author" content="Antonio Sanchez">
-    <title>MicroBlog</title>
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <!-- Favicons -->
+@extends('layouts.blog')
 
 
+@section('content')                
+    
+    <div class="card" >
 
-<!-- Custom styles for this template -->
-<link href="signin.css" rel="stylesheet">
-</head>
-<body class="text-center">
+        <!-- validation errors -->
+        @if ( isset($arr_error) ) 
+            <div class="card-body" >
+                @foreach($arr_error as $error) 
+                     {{$error}}
+                @endforeach
+            </div>
+        @endif
 
-    <form class="form-signin" >
+        <!-- validation errors -->
+        @if (Session::has('error')) 
+               <div class="col-xs-12 alert alert-info">{{ Session::get('error') }}</div>        
+        @endif
 
-        <h1 class="h3 mb-3 font-weight-normal">Register in our Blog</h1>
-        
-        <label for="inputEmail" class="sr-only">Name </label>
-        <input type="text" id="inputName" class="form-control" placeholder="Yor name" required autofocus>
-        
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
-        
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        @if ( !Session::has('message') ) 
+        <div class="card-body" >
 
-        <label for="inputPassword" class="sr-only">Password Repeat</label>
-        <input type="password" id="inputPassword_confirmation" class="form-control" placeholder="Password Repeat" required>
+            <form class="form-signin text-left" action="user" method="post" >
+                
+                @csrf
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>        
-    </form>
-</body>
-</html>
+                <input type="hidden" name="_method" value="POST">
+
+                <h4>Register in our Blog</h4>
+                
+                <label for="inputName" class="sr-only">Name </label>
+                <input name="name" type="text" id="inputName" class="margin-top-10 form-control" placeholder="Your name" required autofocus>
+                
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input name="email"  type="email" id="inputEmail" class="margin-top-10 form-control" placeholder="Email address" required>
+                
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input name="password" type="password" id="inputPassword" class="margin-top-10 form-control" placeholder="Password" required>
+
+                <label for="inputPassword_confirmation" class="sr-only">Password Repeat</label>
+                <input name="password_confirmation" type="password" id="inputPassword_confirmation" class="margin-top-10 form-control" placeholder="Password Repeat" required>
+
+                <button class="margin-top-10 btn btn-lg btn-primary btn-block" type="submit">Register</button>        
+            </form>
+
+        </div>
+        @else
+            <div class="col-xs-12 success">
+                {{ Session::get('message') }}
+                <br />
+                <br />
+                <a href="login"> Go to login </a>
+            </div>                
+        @endif
+
+    </div>
 
 
+@endsection
 

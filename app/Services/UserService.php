@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Storage;
 use DB;
 use Mail;
+use Validator;
 
 use App\Mail\Welcome;
 
@@ -39,9 +40,13 @@ class UserService
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return redirect('register')
-                        ->withErrors($validator)
-                        ->withInput();
+            $arr_error = array();
+            $errores = $validator->messages()->getMessages();
+            foreach ($errores as $key => $value) {
+                     $arr_error[] = $key.": ".array_values($value)[0];
+            } 
+
+            return redirect('register', compact($arr_error) );
         } else {
 
         	$data = [];
@@ -56,7 +61,7 @@ class UserService
             	self::sendWelcomeEmail($user,$request->input('password'));
             	$request->session()->flash('message', 'New user created! The system just sent an email to '. $request->input('email') .' with your access data.');
             } else {            	
-            	$request->session()->flash('message', 'Problem creating user, try again later.');
+            	$request->session()->flash('error', 'Problem creating user, try again later.');
             }
 
             
