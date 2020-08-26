@@ -13,7 +13,14 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'BlogApp'),
+    'url' => env('APP_URL', 'http://microblog.local'),
+
+    'salt' => env('APP_SALT','L@r@vel'),
+
+    'db_host' => env('DB_HOST', 'localhost'),
+    'db_database' => env('DB_DATABASE', 'microblog_square1'),
+    'db_connection' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
