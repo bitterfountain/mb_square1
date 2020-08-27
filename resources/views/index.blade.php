@@ -2,7 +2,14 @@
 
 
 @section('content')                
+
+    @if($data instanceof \Illuminate\Pagination\LengthAwarePaginator )
+    <div class="col-xs-12 margin-top-10 text-right" >
+    	{{ $data->links() }}
+    </div>
+    @endif
     
+
 	@foreach( $data as $item ) 
 	<div class="card col-xs-12 text-left margin-top-10" >
 		<div class="card-body" >
@@ -16,7 +23,7 @@
 
 
     @if($data instanceof \Illuminate\Pagination\LengthAwarePaginator )
-    <div class="col-xs-12 " >
+    <div class="col-xs-12 margin-top-10" >
     	{{ $data->links() }}
     </div>
     @endif

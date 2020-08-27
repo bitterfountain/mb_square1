@@ -26,10 +26,11 @@ class UserService
 
 	public function store( Request $request )	
 	{		
+        $validator  = false;
+        $error      = false;
         // validate
         // read more on validation at http://laravel.com/docs/validation
-		$languages = config('translatable.locales');
-        
+       
         $rules = array();
 
         $rules['name'] 					=  'required|min:2';
@@ -46,7 +47,9 @@ class UserService
                      $arr_error[] = $key.": ".array_values($value)[0];
             } 
 
-            return redirect('register', compact($arr_error) );
+            $result     = $arr_error;
+            $error      = true;
+            $validator  = true;
         } else {
 
         	$data = [];
@@ -54,24 +57,44 @@ class UserService
         	$data['email'] = $request->input('email');
         	$data['password'] = crypt($request->input('password'), config('app.salt') );
         	$data['created_at'] = date('Y-m-d H:i:s');
- 			
- 			$user = User::create($data);
-            
-            if ($user->id) {
-            	self::sendWelcomeEmail($user,$request->input('password'));
-            	$request->session()->flash('message', 'New user created! The system just sent an email to '. $request->input('email') .' with your access data.');
-            } else {            	
-            	$request->session()->flash('error', 'Problem creating user, try again later.');
-            }
 
+            try {             		
+ 			    $user = User::create($data);
+                $validator = null;
+            } catch (\Exception $e)  {
+                $error = true;
+                $errorCode  = $e->errorInfo[1];
+                if($errorCode == 1062){
+                    $result = "Duplicate email, the entered email exists in database, please, choose other email.";
+                } else {
+                    $result = $e->getMessage();
+                }
+            }
             
-            return redirect('register');
+            if (!$error) 
+            {
+                if ($user->id) {
+                	self::sendWelcomeEmail($user,$request->input('password'));
+                	$result = 'New user created! The system just sent an email to '. $request->input('email') .' with your access data.';
+                    $error  = false;
+                } else {            	
+                	$result = 'Problem creating user, try again later.';
+                    $error  = true;
+                }
+            }
+            
 
         }
+        
+        return json_encode([
+            "error"         => $error,
+            "validator"     => $validator,
+            "response"      => $result,
+        ]);
 		
 	}
 
-
+    
 
 	public static function sendWelcomeEmail($user, $clave)
 	{
