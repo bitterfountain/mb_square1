@@ -15,7 +15,9 @@ use App\Post;
 $postService = new PostService();
 
 echo $postService->importPosts($request);  
-        
+
+
+//0 * * * * php /var/www/mb_square1/scripts/importPosts.php
 
 ?>
 

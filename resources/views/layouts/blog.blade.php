@@ -21,9 +21,9 @@
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link @if( Request::is('/') ) active @endif" href="/">Home</a>
                         @if( Session::has('username') )
-                            <a class="logOut nav-link" id="logOut" href="/logout"><span class="green">{{Session::get('username')}}</span> - Logout</a>
                             <a class="nav-link @if( Request::is('mypost') ) active @endif" href="/mypost">My Post</a>
                             <a class="nav-link @if( Request::is('newpost') ) active @endif" href="/newpost">New Post</a>
+                            <a class="logOut nav-link" id="logOut" href="/logout"><span class="green">{{Session::get('username')}}</span> - Logout</a>
                         @else
                             <a class="nav-link @if( Request::is('register') ) active @endif" href="/register">Register</a>
                             <a class="nav-link @if( Request::is('login') ) active @endif" href="/login">Login</a>
