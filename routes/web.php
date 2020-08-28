@@ -17,9 +17,11 @@ Route::get('/', 'PostController@index' );
 Route::get('/login', 	'UserController@login' );   
 Route::get('/register', 'UserController@register' );
 
-Route::get('/mypost', 	 'PostController@myPost' ); 
-Route::get('/newpost', 	 'PostController@create' ); 
-Route::post('/savepost', 'PostController@store' ); 
+Route::get('/mypost', 	 'PostController@myPost' )->middleware('check.access');
+Route::get('/newpost', 	 'PostController@create' )->middleware('check.access');
+Route::post('/savepost', 'PostController@store' )->middleware('check.access');
+
+Route::get('/importposts', 'PostController@importPosts' )->middleware('check.access');
 
 Route::post('/user', 	'UserController@store' );
 
